@@ -55,7 +55,9 @@
             position: relative;
         }
 
-        /* โหมดหน้าแรก: แสดงแผนที่คู่กับรายชื่อด้านข้าง */
+        /* ---------------------------------------------------- */
+        /* โหมดหน้าแรก: แผนที่ + รายการด้านข้าง */
+        /* ---------------------------------------------------- */
         .map-view-wrapper {
             display: flex;
             gap: 20px;
@@ -207,10 +209,10 @@
         }
 
         /* ---------------------------------------------------- */
-        /* โหมดเจาะลึกอาคาร (ซ่อนแผนที่เดิม ย้ายข้อมูลขึ้นจอมอนิเตอร์) */
+        /* โหมดเจาะลึกอาคาร (แสดงผลแบบสองหน้าจอ PC / Mobile) */
         /* ---------------------------------------------------- */
         .detail-view-wrapper {
-            display: none; /* ซ่อนไว้เริ่มต้น */
+            display: none; 
             flex-direction: column;
             gap: 20px;
             background: var(--card-bg);
@@ -221,7 +223,6 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        /* ส่วนหัว: ชื่อคณะอยู่ด้านบนสุด เด่นชัด */
         .detail-top-header {
             display: flex;
             justify-content: space-between;
@@ -229,6 +230,7 @@
             border-bottom: 3px solid var(--accent-color);
             padding-bottom: 15px;
             margin-bottom: 10px;
+            gap: 15px;
         }
 
         .detail-title-area {
@@ -236,7 +238,7 @@
         }
 
         .detail-main-title {
-            font-size: 32px; /* ขนาดใหญ่พิเศษสำหรับมอนิเตอร์ */
+            font-size: 32px; /* ขนาดใหญ่สำหรับจอ Monitor */
             color: var(--primary-color);
             font-weight: bold;
         }
@@ -247,10 +249,10 @@
             margin-top: 4px;
         }
 
-        /* ปุ่มควบคุม */
         .action-buttons-group {
             display: flex;
             gap: 12px;
+            flex-shrink: 0;
         }
 
         .control-btn {
@@ -290,14 +292,12 @@
             border-color: #2f855a;
         }
 
-        /* เนื้อหาหลัก: แบ่งรูปอยู่ตรงกลาง (ใหญ่) ข้อมูลอยู่ขวา */
         .detail-body-layout {
             display: flex;
             gap: 30px;
             align-items: start;
         }
 
-        /* รูปภาพตรงกลางขนาดใหญ่พิเศษ สำหรับแสดงบน Monitor */
         .detail-image-center {
             flex: 1.3;
             background: #edf2f7;
@@ -305,7 +305,6 @@
             overflow: hidden;
             border: 2px solid var(--border-color);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            /* ควบคุมความสูงของภาพให้เหมาะสมไม่ล้นจอ */
             max-height: 580px; 
             display: flex;
             align-items: center;
@@ -315,13 +314,12 @@
         .detail-image-center img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* ป้องกันภาพแตกหรือสัดส่วนเพี้ยนบนจอใหญ่ */
+            object-fit: contain;
             background-color: #f1f5f9;
         }
 
-        /* คอลัมน์ข้อมูลด้านขวา */
         .detail-info-right {
-            flex: 1px;
+            flex: 1;
             min-width: 450px;
             background: #f8fafc;
             border-radius: 10px;
@@ -340,7 +338,6 @@
             margin-bottom: 20px;
         }
 
-        /* รายละเอียดชั้นเรียน */
         .floor-section-box {
             margin-top: 15px;
         }
@@ -363,7 +360,6 @@
             border-radius: 8px;
             margin-bottom: 8px;
             font-size: 14px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .floor-item-badge {
@@ -404,18 +400,82 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* การจัดหน้าจอเมื่อย่อขยาย */
-        @media (max-width: 1250px) {
-            .map-view-wrapper, .detail-body-layout {
-                flex-direction: column;
+        /* ---------------------------------------------------- */
+        /*  Responsive Design สำหรับหน้าจอ โทรศัพท์มือถือ (Mobile) */
+        /* ---------------------------------------------------- */
+        @media (max-width: 1024px) {
+            body {
+                padding: 10px;
             }
-            .map-section, .legend-section, .detail-image-center, .detail-info-right {
+            
+            header h1 {
+                font-size: 20px;
+            }
+
+            /* ยุบรวม Layout แผนที่หน้าแรก */
+            .map-view-wrapper {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .map-section, .legend-section {
                 width: 100% !important;
                 flex: none !important;
                 max-height: none !important;
             }
+
+            /* ปรับแต่งส่วนเจาะลึกอาคารสำหรับ Mobile */
+            .detail-view-wrapper {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .detail-top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            /* ลดขนาดตัวอักษรชื่อคณะไม่ให้ล้นหน้าจอมือถือ */
+            .detail-main-title {
+                font-size: 22px; 
+            }
+            
+            .action-buttons-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .control-btn {
+                padding: 10px 14px;
+                font-size: 13px;
+                flex: 1;
+                justify-content: center;
+            }
+
+            /* เปลี่ยนการเรียงตัวของเนื้อหาเป็นแนวตั้งลงมา */
+            .detail-body-layout {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            /* กล่องภาพปรับขนาดความสูงลงมาให้เหมาะสมกับมือถือ */
+            .detail-image-center {
+                width: 100% !important;
+                flex: none !important;
+                max-height: 300px; 
+            }
+
+            /* กล่องข้อมูลฝั่งขวายุบสเกลลงมาเติมเต็มพื้นที่หน้าจอ */
             .detail-info-right {
-                min-width: 100%;
+                width: 100% !important;
+                min-width: 100% !important;
+                flex: none !important;
+                max-height: none !important;
+                padding: 15px;
+            }
+            
+            .detail-desc-text {
+                font-size: 14.5px;
             }
         }
     </style>
@@ -424,13 +484,13 @@
 
 <header>
     <h1>แผนที่แนะนำสถานที่ภายในเขตพื้นที่บางพระ (RMUTTO MAP)</h1>
-    <p>ระบบแสดงผลโหมด Monitor คมชัดสูง: คลิกที่อาคารเพื่อซ่อนแผนที่และขยายภาพขนาดใหญ่เต็มตา</p>
+    <p>ระบบแยกสเกลจออัตโนมัติ: ตัวอักษรและรูปภาพจะปรับขนาดพอดีจอทั้งบน Monitor และสมาร์ตโฟน</p>
 </header>
 
 <div class="app-main-layout">
     
+    <!-- โหมดหน้าแรก (Map View) -->
     <div class="map-view-wrapper" id="mapViewMode">
-        
         <div class="map-section">
             <div class="map-container">
                 <img src="map.jpg" alt="RMUTTO Map" id="mainMapImage">
@@ -454,13 +514,13 @@
                 <div class="map-clickable-zone" id="zone-BLDG17" style="top: 29.5%; left: 34.5%; width: 4.2%; height: 5.5%;" onclick="enterDetailMode('BLDG17')"></div>
                 <div class="map-clickable-zone" id="zone-BLDG18" style="top: 65.5%; left: 54.5%; width: 4.2%; height: 5.5%;" onclick="enterDetailMode('BLDG18')"></div>
                 
-                <div class="map-clickable-zone" id="zone-SCD" style="top: 38%; left: 55%; width: 3%; height: 4.6%;" onclick="enterDetailMode('SCD')" title="SCD โรงอาหาร"></div>
-                <div class="map-clickable-zone" id="zone-SD" style="top: 39.2%; left: 69.4%; width: 3.2%; height: 5%;" onclick="enterDetailMode('SD')" title="SD หอพักนักศึกษา"></div>
+                <div class="map-clickable-zone" id="zone-SCD" style="top: 38%; left: 55%; width: 3%; height: 4.6%;" onclick="enterDetailMode('SCD')"></div>
+                <div class="map-clickable-zone" id="zone-SD" style="top: 39.2%; left: 69.4%; width: 3.2%; height: 5%;" onclick="enterDetailMode('SD')"></div>
                 
                 <div class="map-clickable-zone gate-zone" id="zone-GATE1" style="top: 50.5%; left: 51.5%; width: 3.5%; height: 4.5%;" onclick="enterDetailMode('GATE1')"></div>
                 <div class="map-clickable-zone gate-zone" id="zone-GATE4" style="top: 60.5%; left: 11.5%; width: 3.5%; height: 4.5%;" onclick="enterDetailMode('GATE4')"></div>
 
-                <div class="map-clickable-zone custom-pin" id="zone-NEW01" style="top: 29%; left: 52%;" onclick="enterDetailMode('NEW01')" title="คลิกดูสถานที่ใหม่">
+                <div class="map-clickable-zone custom-pin" id="zone-NEW01" style="top: 29%; left: 52%;" onclick="enterDetailMode('NEW01')">
                     <div class="pin-marker"></div>
                     <div class="pin-pulse"></div>
                 </div>
@@ -473,50 +533,38 @@
             </div>
             <div class="legend-list" id="customLegendList"></div>
         </div>
-
     </div>
 
+    <!-- โหมดเจาะลึกอาคาร (Detail View) -->
     <div class="detail-view-wrapper" id="detailViewMode">
-        
         <div class="detail-top-header">
             <div class="detail-title-area">
                 <div class="detail-main-title" id="detTitle">ชื่อคณะ/อาคาร</div>
                 <div class="detail-sub-meta" id="detCode">รหัสอ้างอิง</div>
             </div>
-            
             <div class="action-buttons-group">
-                <button class="control-btn btn-back" onclick="exitToMapMode()">
-                    ↩ กลับหน้าแผนที่ใหญ่
-                </button>
-                <button class="control-btn btn-next" onclick="navigateToNextLocation()">
-                    คณะถัดไป ▶
-                </button>
+                <button class="control-btn btn-back" onclick="exitToMapMode()">↩ กลับสู่แผนที่</button>
+                <button class="control-btn btn-next" onclick="navigateToNextLocation()">ถัดไป ▶</button>
             </div>
         </div>
 
         <div class="detail-body-layout">
-            
             <div class="detail-image-center">
-                <img id="detImg" src="" alt="Location High-Res Preview" onerror="this.src='https://via.placeholder.com/800x500?text=RMUTTO+High-Res+Asset+Image'">
+                <img id="detImg" src="" alt="Location Preview" onerror="this.src='https://via.placeholder.com/800x500?text=RMUTTO+Image'">
             </div>
-
             <div class="detail-info-right">
                 <p id="detDesc" class="detail-desc-text">คำอธิบายสถานที่...</p>
-                
                 <div id="detFloorSection" style="display: none;">
                     <div class="floor-section-title">โครงสร้างและรายละเอียดรายชั้น:</div>
                     <div id="detFloorContainer"></div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 </div>
 
 <script>
-    // ฐานข้อมูลสถานที่ดั้งเดิม คงเดิมทุกประการ
     const campusData = {
         'BLDG01': { title: 'อาคารสรรพวิชญ์บริการ', desc: 'อาคารศูนย์รวมบริการทางการศึกษา ห้องสมุดหลัก และสิ่งอำนวยความสะดวกสำหรับนักศึกษา', img: 'bldg01.jpg', floors: [['ชั้น 3', 'LIB-3', 'ห้องปฏิบัติการคอมพิตเตอร์หลัก'], ['ชั้น 2', 'LIB-2', 'ห้องสมุดกลางและโซนอ่านหนังสือเงียบ'], ['ชั้น 1', 'LIB-1', 'จุดประชาสัมพันธ์ พื้นที่จัดนิทรรศการ และสำนักงาน']] },
         'BLDG02': { title: 'อาคารหอประชุมมังคลอุบล', desc: 'หอประชุมใหญ่สำหรับจัดพิธีสำคัญ กิจกรรมปฐมนิเทศ และงานนิทรรศการของมหาวิทยาลัย', img: 'bldg02.jpg', floors: [] },
@@ -566,11 +614,9 @@
         }
     };
 
-    // อาร์เรย์ของ Keys ทั้งหมดเพื่อใช้ทำระบบเปิดวนลูปหน้าถัดไป (Next Location)
     const locationKeys = Object.keys(campusData);
     let currentActiveId = null;
 
-    // สร้างเมนูด้านข้างอัตโนมัติในหน้าแรก
     const legendContainer = document.getElementById('customLegendList');
     locationKeys.forEach(key => {
         const item = document.createElement('div');
@@ -590,7 +636,6 @@
         const text = document.createElement('div');
         text.className = 'legend-text';
         text.innerText = campusData[key].title;
-        text.title = campusData[key].title;
         
         item.appendChild(badge);
         item.appendChild(text);
@@ -598,31 +643,26 @@
         legendContainer.appendChild(item);
     });
 
-    // ฟังก์ชันเข้าสู่โหมดเจาะลึกอาคาร (ซ่อนแผนที่ ขยายรูปและข้อมูลเต็มจอ)
     function enterDetailMode(id) {
         currentActiveId = id;
         const data = campusData[id];
         if (!data) return;
 
-        // ซ่อนแผนที่หน้าแรก และเปิดกล่องแสดงรายละเอียด
         document.getElementById('mapViewMode').style.display = 'none';
         document.getElementById('detailViewMode').style.display = 'flex';
 
-        // อัปเดตข้อมูล Text และรูปภาพขนาดใหญ่ตรงกลาง
         document.getElementById('detTitle').innerText = data.title;
         document.getElementById('detDesc').innerText = data.desc;
         document.getElementById('detImg').src = data.img;
 
-        // อัปเดตรหัสอ้างอิงสถานะตึก
         if (id.startsWith('BLDG') || id === 'SCD' || id === 'SD') {
             document.getElementById('detCode').innerText = 'รหัสอาคารอ้างอิง: ' + id;
         } else if (id.startsWith('NEW')) {
-            document.getElementById('detCode').innerText = 'สถานที่เพิ่มพิเศษนอกแผนที่ภาพถ่าย';
+            document.getElementById('detCode').innerText = 'สถานที่เพิ่มพิเศษ';
         } else {
-            document.getElementById('detCode').innerText = 'ช่องทางการสื่อสารเข้าออกวิทยาเขต';
+            document.getElementById('detCode').innerText = 'ช่องทางเข้าออก';
         }
 
-        // จัดการโครงสร้างชั้นเรียนฝั่งขวา
         const floorSection = document.getElementById('detFloorSection');
         const container = document.getElementById('detFloorContainer');
         container.innerHTML = '';
@@ -654,28 +694,20 @@
             floorSection.style.display = 'none';
         }
         
-        // เลื่อนกล่องข้อมูลฝั่งขวาขึ้นไปด้านบนสุดทุกครั้งที่เปลี่ยนหน้า
-        document.getElementById('detailViewMode').scrollIntoView({ behavior: 'smooth' });
-        document.querySelector('.detail-info-right').scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ฟังก์ชันย้อนกลับไปยังหน้าแรก (กลับไปดูแผนที่รวม)
     function exitToMapMode() {
         document.getElementById('detailViewMode').style.display = 'none';
         document.getElementById('mapViewMode').style.display = 'flex';
         currentActiveId = null;
     }
 
-    // ฟังก์ชันไปที่ "คณะถัดไป" วนรอบตามลิสต์ข้อมูลที่มีอยู่
     function navigateToNextLocation() {
         if (!currentActiveId) return;
-        
         const currentIndex = locationKeys.indexOf(currentActiveId);
-        // หา Index ถัดไป หากเกินจำนวนรายการให้วนกลับไปที่ 0 (ตึกแรก)
         const nextIndex = (currentIndex + 1) % locationKeys.length;
-        const nextKey = locationKeys[nextIndex];
-        
-        enterDetailMode(nextKey);
+        enterDetailMode(locationKeys[nextIndex]);
     }
 </script>
 
